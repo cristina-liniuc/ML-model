@@ -1,6 +1,7 @@
 import os
 import joblib
 import numpy as np
+import pandas as pd
 import argparse
 
 from sklearn.svm import SVC
@@ -9,6 +10,7 @@ from azureml.monitoring import ModelDataCollector
 from inference_schema.schema_decorators import input_schema, output_schema
 from inference_schema.parameter_types.numpy_parameter_type import NumpyParameterType
 from inference_schema.parameter_types.standard_py_parameter_type import StandardPythonParameterType
+from inference_schema.parameter_types.pandas_parameter_type import PandasParameterType
 
 
 # The init() method is called once, when the web service starts up.
@@ -25,14 +27,22 @@ def init():
     inputs_dc = ModelDataCollector("sample-model", designation="inputs", feature_names=["feat1", "feat2", "feat3", "feat4", "feat5"])
     prediction_dc = ModelDataCollector("sample-model", designation="predictions", feature_names=["prediction"])
 
-
+input_sample = pd.DataFrame(data=[{
+    "feat1": 0.001,
+    "feat2": 0.001,
+    "feat3": 0.001,
+    "feat4": 0.001,
+    "feat5": 0.001
+    }])
 # The run() method is called each time a request is made to the scoring API.
 # Shown here are the optional input_schema and output_schema decorators
 # from the inference-schema pip package. Using these decorators on your
 # run() method parses and validates the incoming payload against
 # the example input you provide here. This will also generate a Swagger
 # API document for your web service.
-@input_schema('data', NumpyParameterType(np.array([[0.1, 1.2, 2.3, 3.4]])))
+# @input_schema('data', NumpyParameterType(np.array([[0.1, 1.2, 2.3, 3.4]])))
+@input_schema('data', PandasParameterType(input_sample))
+
 @output_schema(StandardPythonParameterType({'predict': [['Iris-virginica']]}))
 def run(data):
     # Use the model object loaded by init().
