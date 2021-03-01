@@ -31,6 +31,8 @@ run = Run.get_context()
 
 
 def main(args):
+
+    global X_test
     # create the outputs folder
     os.makedirs('outputs', exist_ok=True)
 
