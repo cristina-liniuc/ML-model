@@ -22,7 +22,7 @@ def init():
     model_file_name = "model.pkl"
     model_path = os.path.join(os.environ.get("AZUREML_MODEL_DIR"), model_file_name)
     model = joblib.load(model_path)
-    inputs_dc = ModelDataCollector("sample-model", designation="inputs", feature_names=["feat1", "feat2", "feat3", "feat4"])
+    inputs_dc = ModelDataCollector("sample-model", designation="inputs", feature_names=["feat1", "feat2", "feat3", "feat4", "feat5"])
     prediction_dc = ModelDataCollector("sample-model", designation="predictions", feature_names=["prediction"])
 
 

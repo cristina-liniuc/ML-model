@@ -6,8 +6,8 @@ from azureml.core import Webservice
 def main(service):
     # Creating input data
     print("Creating input data")
-    data = {"data": [[ 1,2,3,4 ], [ 10,9,8,7 ]]}
-    input_data = json.dumps(data)
+    # data = {"data": [[ 1,2,3,4 ], [ 10,9,8,7 ]]}
+    input_data = json.dumps(X_test)
 
     # Calling webservice
     print("Calling webservice")
